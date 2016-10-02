@@ -1,21 +1,45 @@
-<h1>
-  {{title}}
-</h1>
+<md-sidenav-layout [class.m2app-dark]="isDarkTheme">
 
-<div> {{ (af.auth | async)?.uid }}</div>
-<button (click)="login()">Login</button>
-<button (click)="logout()">Logout</button>
+  <md-sidenav #sidenav mode="side" class="app-sidenav">
+    Sidenav
+  </md-sidenav>
 
-<div *ngIf="af.auth | async">
-  <ul>
-    <li *ngFor="let item of items | async">
-      <input type="text" #updatetext [value]="item.text"/>
-      <button (click)="updateItem(item.$key, updatetext.value)">Update</button>
-      <button (click)="deleteItem(item.$key)">Delete</button>
-    </li>
-  </ul>
-  <input type="text" #newitem/>
-  <button (click)="addItem(newitem.value)">Add</button>
-  <button (click)="deleteEverything()">Delete All</button>
+  <md-toolbar color="primary">
+    <button class="app-icon-button" (click)="sidenav.toggle()">
+      <i class="material-icons app-toolbar-menu">menu</i>
+    </button>
 
-</div>
+    Beer Cellar
+
+    <span class="app-toolbar-filler"></span>
+    <button md-button (click)="isDarkTheme = !isDarkTheme">TOGGLE DARK THEME</button>
+  </md-toolbar>
+
+  <div class="app-content">
+
+    <md-card>
+      <button md-button>FLAT</button>
+      <button md-raised-button md-tooltip="This is a tooltip!">RAISED</button>
+      <button md-raised-button color="primary">PRIMARY RAISED</button>
+      <button md-raised-button color="accent">ACCENT RAISED</button>
+    </md-card>
+  </div>
+  <div> {{ (af.auth | async)?.uid }}</div>
+  <button (click)="login()">Login</button>
+  <button (click)="logout()">Logout</button>
+
+  <div *ngIf="af.auth | async">
+    <ul>
+      <li *ngFor="let item of items | async">
+        <input type="text" #updatetext [value]="item.text"/>
+        <button (click)="updateItem(item.$key, updatetext.value)">Update</button>
+        <button (click)="deleteItem(item.$key)">Delete</button>
+      </li>
+    </ul>
+    <input type="text" #newitem/>
+    <button (click)="addItem(newitem.value)">Add</button>
+    <button (click)="deleteEverything()">Delete All</button>
+
+  </div>
+</md-sidenav-layout>
+

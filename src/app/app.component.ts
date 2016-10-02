@@ -7,8 +7,8 @@ import {AngularFire, FirebaseListObservable} from 'angularfire2';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
   items: FirebaseListObservable<any>;
+  isDarkTheme: boolean = false;
 
   constructor(public af: AngularFire) {
     af.auth.subscribe((user) => {
