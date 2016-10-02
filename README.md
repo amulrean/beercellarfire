@@ -13,3 +13,13 @@
 - AngularFire2: https://github.com/angular/angularfire2
 - Angular Material 2: https://github.com/angular/material2
 - Material 2 Demo App: https://github.com/jelbourn/material2-app
+
+
+## Firebase Hosting
+
+```
+$ npm install -g firebase-tools
+$ firebase login
+$ firebase init
+$ firebase deploy
+```
