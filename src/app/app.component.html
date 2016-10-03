@@ -13,33 +13,20 @@
 
     <span class="app-toolbar-filler"></span>
     <button md-button (click)="isDarkTheme = !isDarkTheme">TOGGLE DARK THEME</button>
+    <button md-button (click)="login()" *ngIf="!(af.auth | async)">Login</button>
+    <button md-button (click)="logout()" *ngIf="af.auth | async">Logout {{ userName}}</button>
   </md-toolbar>
 
   <div class="app-content">
 
-    <md-card>
-      <button md-button>FLAT</button>
-      <button md-raised-button md-tooltip="This is a tooltip!">RAISED</button>
-      <button md-raised-button color="primary">PRIMARY RAISED</button>
-      <button md-raised-button color="accent">ACCENT RAISED</button>
-    </md-card>
+    <div *ngIf="af.auth | async">
+      <app-beer-list></app-beer-list>
+    </div>
   </div>
-  <div> {{ (af.auth | async)?.uid }}</div>
-  <button (click)="login()">Login</button>
-  <button (click)="logout()">Logout</button>
 
-  <div *ngIf="af.auth | async">
-    <ul>
-      <li *ngFor="let item of items | async">
-        <input type="text" #updatetext [value]="item.text"/>
-        <button (click)="updateItem(item.$key, updatetext.value)">Update</button>
-        <button (click)="deleteItem(item.$key)">Delete</button>
-      </li>
-    </ul>
-    <input type="text" #newitem/>
-    <button (click)="addItem(newitem.value)">Add</button>
-    <button (click)="deleteEverything()">Delete All</button>
 
-  </div>
 </md-sidenav-layout>
 
+<span class="app-action" [class.m2app-dark]="isDarkTheme">
+  <button md-fab><md-icon>add</md-icon></button>
+</span>

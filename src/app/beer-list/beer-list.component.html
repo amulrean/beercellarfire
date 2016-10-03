@@ -1,0 +1,22 @@
+<md-card class="md-card">
+  <h3>New Beer:</h3>
+  <md-input placeholder="Name" [(ngModel)]="newBeer.name"></md-input>
+  <md-input placeholder="Brewery" [(ngModel)]="newBeer.brewery"></md-input>
+  <md-input placeholder="Style" [(ngModel)]="newBeer.style"></md-input>
+  <md-input placeholder="Abv" [(ngModel)]="newBeer.abv">
+    <span md-suffix>%</span>
+  </md-input>
+  <button md-raised-button color="accent" (click)="addItem()" md-tooltip="Do it!">Add Beer</button>
+</md-card>
+
+<h2>Your Cellar:</h2>
+
+<md-card *ngFor="let beer of beers | async" class="md-card">
+  <md-card-subtitle>{{ beer.brewery }}</md-card-subtitle>
+  <md-card-title>{{ beer.name }}</md-card-title>
+  <md-card-content>{{ beer.style }}:{{ beer.abv }}%</md-card-content>
+  <md-card-actions>
+        <button md-button>EDIT</button>
+        <button md-button (click)="deleteItem(beer.$key)">DELETE</button>
+   </md-card-actions>
+</md-card>
