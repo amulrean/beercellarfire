@@ -15,6 +15,7 @@ export class AppComponent {
     af.auth.subscribe((user) => {
       if (user) {
         // User signed in!
+        //noinspection TypeScriptUnresolvedVariable
         this.userName = user.auth.displayName;
       } else {
         // User logged out

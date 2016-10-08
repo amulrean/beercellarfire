@@ -1,4 +1,12 @@
 <md-card class="md-card">
+  <h4>Hero Search</h4>
+  <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
+  <div>
+    <div *ngFor="let beer of beerSearchResults | async"
+         (click)="gotoDetail(beer)" class="search-result" >
+      {{beer.name}}
+    </div>
+  </div>
   <h3>New Beer:</h3>
   <md-input placeholder="Name" [(ngModel)]="newBeer.name"></md-input>
   <md-input placeholder="Brewery" [(ngModel)]="newBeer.brewery"></md-input>
