@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Request, RequestMethod, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs';
 //noinspection TypeScriptCheckImport
 import {environment} from '../environments/environment'
@@ -11,9 +11,22 @@ export class BreweryService {
 
   constructor(private http: Http) {}
 
-  search(term: string): Observable<Beer[]> {
-    return this.http
-               .get(environment.brewerydbServer + `?search=${term}`)
+  searchBeer(term: string): Observable<Beer[]> {
+
+    var params = new URLSearchParams();
+    params.append('q', term);
+    params.append('type', 'beer');
+    params.append('withBreweries', 'Y');
+
+    var options = new RequestOptions({
+      method: RequestMethod.Get,
+      url: environment.brewerydbServer + '/search',
+      search: params
+    });
+
+    var request = new Request(options);
+
+    return this.http.request(request)
                .map((r: Response) => r.json().data as Beer[]);
   }
 

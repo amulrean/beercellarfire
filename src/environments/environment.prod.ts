@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  brewerydbServer: 'https://brewerydb.amulrean.com/'
+  brewerydbServer: 'https://brewerydb.amulrean.com'
 };

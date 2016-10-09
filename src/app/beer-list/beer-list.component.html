@@ -1,5 +1,5 @@
 <md-card class="md-card">
-  <h4>Hero Search</h4>
+  <h4>Beer Search</h4>
   <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
   <div>
     <div *ngFor="let beer of beerSearchResults | async"

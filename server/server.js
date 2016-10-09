@@ -5,6 +5,8 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.set('port', 8080);
 
+var BREWERY_DB_BASE_URL = 'https://api.brewerydb.com/v2';
+
 var API_KEY = process.env.BREWERYDB_API_KEY;
 var ALLOW_DOMAIN = process.env.ALLOW_DOMAIN;
 
@@ -26,7 +28,6 @@ if (API_KEY === undefined || API_KEY.length <= 0) {
     context.method = req.method;
     //method type saved
     context.qParams = [];
-    console.log(req.query);
     //query parameters
     for (var p in req.query) {
       context.qParams.push({
@@ -51,13 +52,23 @@ if (API_KEY === undefined || API_KEY.length <= 0) {
   });
 
 
-  app.get('/', function (req, res, next) {
-    var userInput = processData(req);
-    request("https://api.brewerydb.com/v2/search?key=" + API_KEY + "&type=beer&withBreweries=Y&q=" + userInput.qParams[0].value,
+  // Completely pass through url to brwery db but add in the Api key
+  app.get('/*', function (req, res, next) {
+
+    // var userInput = processData(req);
+
+    var request_url = BREWERY_DB_BASE_URL;
+    request_url += req.originalUrl;
+    request_url += "&key=" + API_KEY;
+
+    request(request_url,
       function (error, response, body) {
         if (!error && response.statusCode === 200) {
-          // console.log(body);
           res.send(body);
+        } else {
+          console.log('Error for request: ' + req.originalUrl);
+          console.log(body);
+          res.status(response.statusCode).send(body);
         }
       });
   });

@@ -35,7 +35,7 @@ export class BeerListComponent implements OnInit {
       .distinctUntilChanged()   // ignore if next search term is same as previous
       .switchMap(term => term   // switch to new observable each time
         // return the http search observable
-        ? this.breweryService.search(term)
+        ? this.breweryService.searchBeer(term)
         // or the observable of empty heroes if no search term
         : Observable.of<Beer[]>([]))
       .catch(error => {
