@@ -1,12 +1,12 @@
 
 export class Glass {
-  id: number;
+  id: string;
   createDate: string;
   name: string;
 }
 
 export class Category {
-  id: number;
+  id: string;
   createDate: string;
   name: string;
 }
@@ -35,10 +35,71 @@ export class Available {
   name: string;
 }
 
+export class Images {
+  icon: string;
+  large: string;
+  medium: string;
+  squareLarge: string;
+  squareMedium: string;
+}
+
+export class Country {
+  createDate: string;
+  displayName: string;
+  isoCode: string;
+  isoThree: string;
+  name: string;
+  numberCode: number;
+}
+
+export class Location {
+  country: Country;
+  countryIsoCode: string;
+  createDate: string;
+  hoursOfOperation: string;
+  id: string;
+  inPlanning: string;
+  isClosed: string;
+  isPrimary: string;
+  latitude: number;
+  locality: string;
+  locationType: string;
+  locationTypeDisplay: string;
+  longitude: number;
+  name: string;
+  openToPublic: string;
+  phone: string;
+  postalCode: string;
+  region: string;
+  status: string;
+  statusDisplay: string;
+  streetAddress: string;
+  updateDate: string;
+  website: string;
+  yearOpened: string;
+}
+
+export class Brewery {
+  createDate: string;
+  description: string;
+  established: string;
+  id: string;
+  images: Images;
+  isOrganic: string;
+  locations: Location[];
+  name: string;
+  nameShortDisplay: string;
+  status: string;
+  statusDisplay: string;
+  updateDate: string;
+  website: string;
+}
+
 
 export class Beer {
   id: string;
   abv : number;
+  breweries: Brewery[];
   description: string;
   name: string;
   glass: Glass;
@@ -53,5 +114,4 @@ export class Beer {
   isOrganic : string;
   status : string;
   statusDisplay : string;
-
 }

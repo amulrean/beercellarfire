@@ -53,7 +53,7 @@ if (API_KEY === undefined || API_KEY.length <= 0) {
 
   app.get('/', function (req, res, next) {
     var userInput = processData(req);
-    request("https://api.brewerydb.com/v2/search?key=" + API_KEY + "&type=beer&q=" + userInput.qParams[0].value,
+    request("https://api.brewerydb.com/v2/search?key=" + API_KEY + "&type=beer&withBreweries=Y&q=" + userInput.qParams[0].value,
       function (error, response, body) {
         if (!error && response.statusCode === 200) {
           // console.log(body);

@@ -4,7 +4,7 @@
   <div>
     <div *ngFor="let beer of beerSearchResults | async"
          (click)="gotoDetail(beer)" class="search-result" >
-      {{beer.name}}
+      {{beer.name}} - {{ beer.style.name}} - {{ beer.breweries[0].name }}
     </div>
   </div>
   <h3>New Beer:</h3>
