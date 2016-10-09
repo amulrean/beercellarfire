@@ -3,14 +3,20 @@ var request = require('request');
 var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
-app.set('port', 3000);
+app.set('port', 8080);
 
-var API_KEY = process.argv[2];
+var API_KEY = process.env.BREWERYDB_API_KEY;
+var ALLOW_DOMAIN = process.env.ALLOW_DOMAIN;
 
 if (API_KEY === undefined || API_KEY.length <= 0) {
-  console.log("Please provide the brewery db apikey as the first argument");
+  console.log("Please provide the brewery db by exporting it");
 
-  console.log("EX: $ node server/server.js 123key");
+  console.log("EX: $ export BREWERYDB_API_KEY=123key");
+
+} else if (API_KEY === undefined || API_KEY.length <= 0) {
+  console.log("Please provide allowed CORS domain by exporting");
+
+  console.log("EX: $ export ALLOW_DOMAIN=example.com");
 
 } else {
 
@@ -33,7 +39,7 @@ if (API_KEY === undefined || API_KEY.length <= 0) {
 
   app.use(function (req, res, next) {
     // Website sending requests
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.setHeader('Access-Control-Allow-Origin', ALLOW_DOMAIN);
     // Request method that you are allowing (we are using GET)
     res.setHeader('Access-Control-Allow-Methods', 'GET');
 // Request header types that are allowed

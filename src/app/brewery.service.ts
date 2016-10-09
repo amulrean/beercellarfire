@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
+//noinspection TypeScriptCheckImport
+import {environment} from '../environments/environment'
 
 import {Beer} from './beer'
 
@@ -11,7 +13,7 @@ export class BreweryService {
 
   search(term: string): Observable<Beer[]> {
     return this.http
-               .get(`http://localhost:3000/?search=${term}`)
+               .get(environment.brewerydbServer + `?search=${term}`)
                .map((r: Response) => r.json().data as Beer[]);
   }
 

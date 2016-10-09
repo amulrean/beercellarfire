@@ -11,7 +11,23 @@
 Must set up a node serve to pass through search requests to BreweryDB to get around coors restrictions
 
 - Obtain brewerydb api key
-- $ node server/server.js 123key
+- export BREWERYDB_API_KEY=123key
+- export ALLOW_DOMAIN=http://localhost:4200
+- $ node server/server.js 
+
+## Node Server Production
+
+I set up a standard Ubuntu 16.04 ec2 instance on AWS
+
+- Follow (Node Setup)[
+- $ export BREWERYDB_API_KEY=123Key
+- export ALLOW_DOMAIN=(Production App)
+- $ vi ~/bashrc
+- Add export statement to bottom
+- create file ~/server.js copy from server/server.js
+- create file ~/package.json copy from server/package.json
+- $ sudo npm install
+- $ pm2 start server.js
 
 ## Resources
 
@@ -22,6 +38,7 @@ Must set up a node serve to pass through search requests to BreweryDB to get aro
 - Material 2 Demo App: https://github.com/jelbourn/material2-app
 - BreweryDB: http://www.brewerydb.com/developers
 - BreweryDB Node Server Setup: http://52.40.59.238/code.html
+- Setup Node on Ubuntu 16.04: https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04
 
 
 ## Firebase Hosting
