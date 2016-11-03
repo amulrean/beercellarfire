@@ -10,6 +10,7 @@ import { secrets } from '../environments/environment-secrets';
 
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { BeerListComponent } from './beer-list/beer-list.component';
+import { BeerNewComponent } from './beer-list/beer-new.component';
 
 // Must export the config
 export const firebaseConfig = secrets.firebaseConfig;
@@ -23,6 +24,7 @@ const myFirebaseAuthConfig = {
   declarations: [
     AppComponent,
     BeerListComponent,
+    BeerNewComponent
   ],
   imports: [
     BrowserModule,
