@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AngularFire, FirebaseListObservable} from 'angularfire2';
 import {Subject}           from 'rxjs/Subject';
 
-import {BreweryService} from '../brewery.service';
-import {Beer} from '../beer';
+import {BreweryService} from './brewery.service';
+import {Beer} from './beer';
 
 
 @Component({

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Request, RequestMethod, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs';
 //noinspection TypeScriptCheckImport
-import {environment} from '../environments/environment'
+import {environment} from '../../environments/environment'
 
 import {Beer} from './beer'
 

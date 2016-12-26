@@ -9,31 +9,38 @@ import { AppComponent } from './app.component';
 import { secrets } from '../environments/environment-secrets';
 
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
-import { BeerListComponent } from './beer-list/beer-list.component';
-import { BeerNewComponent } from './beer-list/beer-new.component';
+import { BeerListComponent } from './beer/beer-list.component';
+import { BeerNewComponent } from './beer/beer-new.component';
+import {BeercellarfireRoutingModule} from "./app-routing.module";
+import { AuthModule } from './auth/auth.module';
+import {HomeComponent} from "./home.compoent";
+import {AuthGuard} from "./auth/auth-gaurd.service";
 
 // Must export the config
 export const firebaseConfig = secrets.firebaseConfig;
 
 const myFirebaseAuthConfig = {
-  provider: AuthProviders.Google,
-  method: AuthMethods.Redirect
+  provider: AuthProviders.Password,
+  method: AuthMethods.Password
 };
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     BeerListComponent,
-    BeerNewComponent
+    BeerNewComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     MaterialModule.forRoot(),
-    AngularFireModule.initializeApp(firebaseConfig, myFirebaseAuthConfig)
+    AngularFireModule.initializeApp(firebaseConfig, myFirebaseAuthConfig),
+    BeercellarfireRoutingModule,
+    AuthModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -39,7 +39,7 @@ I set up a standard Ubuntu 16.04 ec2 instance on AWS
 - BreweryDB: http://www.brewerydb.com/developers
 - BreweryDB Node Server Setup: http://52.40.59.238/code.html
 - Setup Node on Ubuntu 16.04: https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04
-
+- Authentication for Angular2: https://blog.khophi.co/angularfire2-authentication/
 
 ## Firebase Hosting
 

@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
-import {AngularFire, FirebaseListObservable} from 'angularfire2';
+import {AngularFire} from 'angularfire2';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
-  templateUrl: `
+  template: `
     <md-sidenav-layout [class.m2app-dark]="isDarkTheme">
 
       <md-sidenav #sidenav mode="side" class="app-sidenav">
@@ -16,18 +17,22 @@ import {AngularFire, FirebaseListObservable} from 'angularfire2';
         </button>
     
         Beer Cellar
+        <button md-button routerLink="/">Home</button>
     
         <span class="app-toolbar-filler"></span>
         <button md-button (click)="isDarkTheme = !isDarkTheme">TOGGLE DARK THEME</button>
-        <button md-button (click)="login()" *ngIf="!(af.auth | async)">Login</button>
-        <button md-button (click)="logout()" *ngIf="af.auth | async">Logout {{ userName}}</button>
+        <span *ngIf="af.auth | async">
+          <button md-button routerLink="/cellar">Cellar</button>
+          <button md-button (click)="logout()">Logout</button>
+        </span>
+        <span *ngIf="!(af.auth | async)">
+          <button md-button routerLink="/login">Login</button>
+          <button md-button routerLink="/signup">Sign Up</button>
+        </span>
       </md-toolbar>
     
       <div class="app-content">
-    
-        <div *ngIf="af.auth | async">
-          <app-beer-list></app-beer-list>
-        </div>
+        <router-outlet></router-outlet>
       </div>
     
     
@@ -44,26 +49,14 @@ import {AngularFire, FirebaseListObservable} from 'angularfire2';
 export class AppComponent {
 
   isDarkTheme: boolean = false;
-  userName: string = "";
 
-  constructor(public af: AngularFire) {
-    af.auth.subscribe((user) => {
-      if (user) {
-        // User signed in!
-        //noinspection TypeScriptUnresolvedVariable
-        this.userName = user.auth.displayName;
-      } else {
-        // User logged out
-      }
-    });
-  }
+  constructor(public af: AngularFire, private router: Router) {
 
-  login() {
-    this.af.auth.login();
   }
 
   logout() {
     this.af.auth.logout();
+    this.router.navigate(['/'])
 
   }
 }

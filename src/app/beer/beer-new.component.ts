@@ -2,8 +2,8 @@ import {Component, OnInit, EventEmitter} from '@angular/core';
 import { Observable }        from 'rxjs/Observable';
 import { Subject }           from 'rxjs/Subject';
 
-import { BreweryService } from '../brewery.service';
-import { Beer } from '../beer';
+import { BreweryService } from './brewery.service';
+import { Beer } from './beer';
 import {Output} from "@angular/core/src/metadata/directives";
 
 
