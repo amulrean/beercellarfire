@@ -56,3 +56,18 @@ $ firebase deploy
 $ ng build --prod
 $ firebase deploy
 ```
+
+
+Started Security Rules
+{
+  "rules": {
+    "users2": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid"
+      }
+    },
+    ".read": "true",
+    ".write": "auth != null"
+  }
+}

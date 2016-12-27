@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AngularFire, FirebaseApp } from 'angularfire2';
+import {AngularFire, FirebaseApp, AuthProviders, AuthMethods} from 'angularfire2';
 
 @Component({
   templateUrl: 'signup.component.html'
@@ -19,8 +19,15 @@ export class SignupComponent {
         password: formData.value.password
       }).then(
         (success) => {
-        console.log(success);
-        this.router.navigate(['/login'])
+        // Create User Object to Users Table
+        let userObject = {
+          email: formData.value.email,
+          created: new Date().toDateString(),
+          lastLogin: new Date().toDateString()
+        };
+
+        this.af.database.object('/users/' + success.uid).update(userObject);
+        this.router.navigate(['/cellar']);
       }).catch(
         (err) => {
         console.log(err);
@@ -29,6 +36,29 @@ export class SignupComponent {
     } else {
       this.error = 'Your form is invalid';
     }
+  }
+
+  loginGoogle() {
+    this.af.auth.login({
+      provider: AuthProviders.Google,
+      method: AuthMethods.Popup,
+    }).then(
+      (success) => {
+
+      // Create User Object to Users Table
+      let userObject = {
+        email: success.auth.email,
+        created: new Date().toDateString(),
+        lastLogin: new Date().toDateString()
+      };
+
+      this.af.database.object('/users/' + success.uid).update(userObject);
+      this.router.navigate(['/cellar']);
+    }).catch(
+      (err) => {
+      console.log(err);
+      this.error = err.message;
+    })
   }
 }
 
@@ -39,17 +69,20 @@ export class SignupComponent {
 export class LoginComponent {
   public error: any;
 
-  constructor(private af: AngularFire, private router: Router) { }
+  constructor(public af: AngularFire, private router: Router) { }
 
   onSubmit(formData) {
     if(formData.valid) {
-      console.log(formData.value);
       this.af.auth.login({
         email: formData.value.email,
         password: formData.value.password
       }).then(
         (success) => {
-        console.log(success);
+        let userObject = {
+          lastLogin: new Date().toDateString()
+        };
+
+        this.af.database.object('/users/' + success.uid).update(userObject);
         this.router.navigate(['/cellar']);
       }).catch(
         (err) => {
@@ -59,6 +92,29 @@ export class LoginComponent {
     } else {
       this.error = 'Your form is invalid';
     }
+  }
+
+  loginGoogle() {
+    this.af.auth.login({
+      provider: AuthProviders.Google,
+      method: AuthMethods.Popup,
+    }).then(
+      (success) => {
+
+      // Create User Object to Users Table
+      let userObject = {
+        email: success.auth.email,
+        created: new Date().toDateString(),
+        lastLogin: new Date().toDateString()
+      };
+
+      this.af.database.object('/users/' + success.uid).update(userObject);
+      this.router.navigate(['/cellar']);
+    }).catch(
+      (err) => {
+      console.log(err);
+      this.error = err.message;
+    })
   }
 }
 
