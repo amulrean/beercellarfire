@@ -21,7 +21,7 @@ export class SignupComponent {
         (success) => {
         // Create User Object to Users Table
         let userObject = {
-          email: formData.value.email,
+          email: success.auth.email,
           created: new Date().toDateString(),
           lastLogin: new Date().toDateString()
         };
@@ -79,6 +79,7 @@ export class LoginComponent {
       }).then(
         (success) => {
         let userObject = {
+          email: success.auth.email,
           lastLogin: new Date().toDateString()
         };
 
@@ -97,14 +98,13 @@ export class LoginComponent {
   loginGoogle() {
     this.af.auth.login({
       provider: AuthProviders.Google,
-      method: AuthMethods.Popup,
+      method: AuthMethods.Redirect,
     }).then(
       (success) => {
 
       // Create User Object to Users Table
       let userObject = {
         email: success.auth.email,
-        created: new Date().toDateString(),
         lastLogin: new Date().toDateString()
       };
 

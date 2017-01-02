@@ -12,6 +12,11 @@ export class Category {
 }
 
 export class Style {
+
+  constructor() {
+    this.category = new Category();
+  }
+
   id: number;
   createDate: string;
   name: string;
@@ -53,6 +58,11 @@ export class Country {
 }
 
 export class Location {
+
+  constructor() {
+    this.country = new Country();
+  }
+
   country: Country;
   countryIsoCode: string;
   createDate: string;
@@ -80,6 +90,13 @@ export class Location {
 }
 
 export class Brewery {
+
+  constructor() {
+    this.locations = [];
+    this.locations.push(new Location());
+    this.images = new Images();
+  }
+
   createDate: string;
   description: string;
   established: string;
@@ -97,6 +114,15 @@ export class Brewery {
 
 
 export class Beer {
+
+  constructor() {
+    this.breweries = [];
+    this.breweries.push(new Brewery());
+    this.style = new Style();
+    this.glass = new Glass();
+    this.available = new Available();
+  }
+
   id: string;
   abv : number;
   breweries: Brewery[];
@@ -114,4 +140,23 @@ export class Beer {
   isOrganic : string;
   status : string;
   statusDisplay : string;
+}
+
+export class CellarRecord {
+
+  constructor() {
+    this.beer = new Beer();
+  }
+
+  ownerUid: string;
+  beer: Beer;
+  count: number;
+  year: number;
+}
+
+export class DrankRecord {
+  ownerUid: string;
+  beer: Beer;
+  count: number;
+  year: number;
 }

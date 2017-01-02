@@ -1,9 +1,7 @@
 import {Component, OnInit, EventEmitter} from '@angular/core';
-import { Observable }        from 'rxjs/Observable';
-import { Subject }           from 'rxjs/Subject';
 
 import { BreweryService } from './brewery.service';
-import { Beer } from './beer';
+import {Beer, CellarRecord} from './beer';
 import {Output} from "@angular/core/src/metadata/directives";
 
 
@@ -13,24 +11,12 @@ import {Output} from "@angular/core/src/metadata/directives";
     <md-card class="md-card new-beer-card">
       <div class="new-beer-search">
         <h4>New Beer:</h4>
-        <md-input placeholder="Beer Search" #searchBox id="search-box" (keyup)="search(searchBox.value)" ></md-input>
+        <md-input placeholder="Beer Name" [(ngModel)]="newRecord.beer.name" ></md-input>
+        <md-input placeholder="Brewery Name" [(ngModel)]="newRecord.beer.breweries[0].name" ></md-input>
+        <md-input placeholder="Count" [(ngModel)]="newRecord.count" ></md-input>
+        <md-input placeholder="Year" [(ngModel)]="newRecord.year" ></md-input>
         <button md-raised-button color="accent" (click)="addItem()" md-tooltip="Add Selected Beer to your Cellar">Add Beer</button>
       </div>
-      <md-progress-bar mode="indeterminate" color="accent" *ngIf="searchInFlight"></md-progress-bar>
-      <md-list class="beer-list">
-        <md-list-item *ngFor="let beer of beerSearchResults | async"
-                      (click)="selectItem(beer)" 
-                      [class.selected]="beer === selectedBeer">
-          <img md-list-avatar 
-            *ngIf="beer.breweries && beer.breweries[0] && beer.breweries[0].images"
-            src="{{ beer.breweries[0].images.icon }}" alt="...">
-          <h3 md-line> {{beer.name}} </h3>
-          <p md-line>
-            <span class="brewery-text" *ngIf="beer.breweries && beer.breweries[0]"> -- {{ beer.breweries[0].name }} </span>
-            <span *ngIf="beer.style"> {{ beer.style.name}} </span>
-          </p>
-        </md-list-item>
-      </md-list>
     </md-card>
 `,
   styles: [`
@@ -60,50 +46,24 @@ import {Output} from "@angular/core/src/metadata/directives";
 
 export class BeerNewComponent implements OnInit {
 
-  @Output() onAddItem = new EventEmitter<Beer>();
+  @Output() onAddItem = new EventEmitter<CellarRecord>();
 
-  selectedBeer: Beer;
-  beerSearchResults: Observable<Beer[]>;
-  private searchTerms = new Subject<string>();
+  newRecord: CellarRecord;
 
-  searchInFlight: boolean = false;
-
-  constructor(
-    private breweryService: BreweryService
-  ) {
-    this.selectedBeer = null;
+  constructor() {
+    this.newRecord = new CellarRecord();
+    this.newRecord.year = new Date().getFullYear();
   }
 
   ngOnInit() {
 
-    this.beerSearchResults = this.searchTerms
-      .debounceTime(300)        // wait for 300ms pause in events
-      .distinctUntilChanged()   // ignore if next search term is same as previous
-      .switchMap(term => term   // switch to new observable each time
-        // return the http search observable
-        ? this.breweryService.searchBeer(term)
-        // or the observable of empty heroes if no search term
-        : Observable.of<Beer[]>([]))
-      .catch(error => {
-        // TODO: real error handling
-        console.log(error);
-        return Observable.of<Beer[]>([]);
-      });
   }
 
   addItem() {
-    if (this.selectedBeer != null) {
-      this.onAddItem.emit(this.selectedBeer);
-      this.selectedBeer = null;
+    if (this.newRecord.beer.name != null) {
+      this.onAddItem.emit(this.newRecord);
+      this.newRecord = new CellarRecord();
     }
-  }
-
-  search(term: string): void {
-    this.searchTerms.next(term);
-  }
-
-  selectItem(beer: Beer): void {
-    this.selectedBeer = beer;
   }
 
 }

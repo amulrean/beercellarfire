@@ -31,5 +31,5 @@
     </div>
 </div>
 <div *ngIf="af.auth | async" class="row">
-  <h3>You have successfully Logged In: </h3>
+  <h3>You have successfully Logged In: {{ af.auth.uid }} </h3>
 </div>
