@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFire, FirebaseListObservable} from 'angularfire2';
-import {Subject}           from 'rxjs/Subject';
 
-import {BreweryService} from './brewery.service';
-import {Beer, CellarRecord} from './beer';
+import {CellarRecord} from './beer';
 
 
 @Component({
@@ -11,29 +9,19 @@ import {Beer, CellarRecord} from './beer';
   template: `
     <app-beer-new (onAddItem)="onAddItem($event)"></app-beer-new>
 
-    <h2>You Current Cellar:</h2>
-    
-    <md-card *ngFor="let record of cellarRecords | async" class="md-card">
-      <md-card-subtitle *ngIf="record.beer.breweries && record.beer.breweries[0]">{{ record.beer.breweries[0].name }}</md-card-subtitle>
-      <md-card-title>{{ record.beer.name }}</md-card-title>
-      <md-card-content *ngIf="record.beer.style">{{ record.beer.style.name }}:{{ record.beer.abv }}%</md-card-content>
-      <md-card-actions>
-            <button md-button>EDIT</button>
-            <button md-button (click)="deleteItem(record.$key)">DELETE</button>
-       </md-card-actions>
-    </md-card>
+    <h2>Your Cellar:</h2>
+    <beer-list-record 
+      *ngFor="let record of cellarRecords | async"
+      [record]="record"
+      (onDrinkRecord)="onDrinkRecord($event)"></beer-list-record>
   `,
   styles: [`
-    .md-card {
-      margin: 20px;
-    }
   `],
-  providers: [BreweryService]
+  providers: []
 })
 export class BeerListComponent implements OnInit {
 
   cellarRecords: FirebaseListObservable<any>;
-  private searchTerms = new Subject<string>();
 
   constructor(public af: AngularFire) {
   }
@@ -48,22 +36,22 @@ export class BeerListComponent implements OnInit {
   }
 
   onAddItem(newRecord: CellarRecord) {
-
     newRecord.ownerUid = this.af.auth.getAuth().auth.uid;
     this.cellarRecords.push(newRecord);
   }
 
+  onDrinkRecord(drankRecord: CellarRecord) {
+
+    drankRecord.count  = drankRecord.count -1;
+    if (drankRecord.count <= 0) {
+      this.cellarRecords.remove(drankRecord.$key);
+    } else {
+      this.cellarRecords.update(drankRecord.$key, {count: drankRecord.count});
+    }
+  }
+
   deleteItem(key: string) {
     this.cellarRecords.remove(key);
-  }
-
-  search(term: string): void {
-    this.searchTerms.next(term);
-  }
-
-  gotoDetail(beer: Beer): void {
-    // let link = ['/detail', hero.id];
-    // this.router.navigate(link);
   }
 
 }

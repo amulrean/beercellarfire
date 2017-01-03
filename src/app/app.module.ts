@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {MaterialModule} from '@angular/material';
+import {FlexLayoutModule} from '@angular/flex-layout';
 import './rxjs-extensions';
 
 import { AppComponent } from './app.component';
@@ -15,6 +16,7 @@ import {BeercellarfireRoutingModule} from "./app-routing.module";
 import { AuthModule } from './auth/auth.module';
 import {HomeComponent} from "./home.compoent";
 import {AuthGuard} from "./auth/auth-gaurd.service";
+import {BeerListRecordComponent} from "./beer/beer-list-record.component";
 
 // Must export the config
 export const firebaseConfig = secrets.firebaseConfig;
@@ -29,6 +31,7 @@ const myFirebaseAuthConfig = {
     AppComponent,
     HomeComponent,
     BeerListComponent,
+    BeerListRecordComponent,
     BeerNewComponent,
   ],
   imports: [
@@ -36,6 +39,7 @@ const myFirebaseAuthConfig = {
     FormsModule,
     HttpModule,
     MaterialModule.forRoot(),
+    FlexLayoutModule.forRoot(),
     AngularFireModule.initializeApp(firebaseConfig, myFirebaseAuthConfig),
     BeercellarfireRoutingModule,
     AuthModule

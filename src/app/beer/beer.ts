@@ -148,6 +148,7 @@ export class CellarRecord {
     this.beer = new Beer();
   }
 
+  $key: string;
   ownerUid: string;
   beer: Beer;
   count: number;

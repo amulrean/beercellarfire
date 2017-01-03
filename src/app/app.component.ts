@@ -7,22 +7,22 @@ import {Router} from "@angular/router";
   template: `
     <md-sidenav-layout [class.m2app-dark]="isDarkTheme">
 
-      <md-sidenav #sidenav mode="side" class="app-sidenav">
-        Sidenav
-      </md-sidenav>
+      <!--<md-sidenav #sidenav mode="side" class="app-sidenav">-->
+        <!--Sidenav-->
+      <!--</md-sidenav>-->
     
       <md-toolbar color="primary">
-        <button class="app-icon-button" (click)="sidenav.toggle()">
-          <i class="material-icons app-toolbar-menu">menu</i>
-        </button>
-    
+        <!--<button class="app-icon-button" (click)="sidenav.toggle()">-->
+          <!--<i class="material-icons app-toolbar-menu">menu</i>-->
+        <!--</button>-->
         Beer Cellar
+        
         <button md-button routerLink="/">Home</button>
     
         <span class="app-toolbar-filler"></span>
-        <button md-button (click)="isDarkTheme = !isDarkTheme">TOGGLE DARK THEME</button>
+        
         <span *ngIf="af.auth | async">
-          <button md-button routerLink="/cellar">Cellar</button>
+          <button md-button routerLink="/cellar">My Cellar</button>
           <button md-button (click)="logout()">Logout</button>
         </span>
         <span *ngIf="!(af.auth | async)">
@@ -38,7 +38,7 @@ import {Router} from "@angular/router";
     
     </md-sidenav-layout>
     
-    <span class="app-action" [class.m2app-dark]="isDarkTheme">
+    <span class="app-action">
       <button md-fab><md-icon>add</md-icon></button>
     </span>
 `,
@@ -57,6 +57,5 @@ export class AppComponent {
   logout() {
     this.af.auth.logout();
     this.router.navigate(['/'])
-
   }
 }
