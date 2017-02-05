@@ -42,9 +42,7 @@ import {Router} from "@angular/router";
       <button md-fab><md-icon>add</md-icon></button>
     </span>
 `,
-  styleUrls: [`
-
-`]
+  styleUrls: []
 })
 export class AppComponent {
 
