@@ -1,27 +1,59 @@
-<div class="row">
-  <div class="small-12 medium-8 medium-centered large-6 large-centered columns">
-    <div class="callout alert" *ngIf="error">
-      {{ error }}
-    </div>
-    <h2>Sign Up</h2>
-    <form #formData='ngForm' (ngSubmit)="onSubmit(formData)">
-      <div class="row">
-        <div class="small-12 columns">
-          <label> Enter email address
-            <input type="text" name="email" placeholder="e.g email@address.com" (ngModel)="email" required>
-          </label>
-        </div>
-        <div class="small-12 columns">
-          <label> Password
-            <input type="password" name="password" (ngModel)="password" required>
-          </label>
-        </div>
-        <div class="small-12 columns">
-          <button type="submit" class="button" [disabled]="!formData.valid">Submit</button>
-          <br/>
-          <a routerLink="/login">Already have an account?</a>
-        </div>
+<div *ngIf="!(af.auth | async)" fxLayout="row" fxLayoutAlign="space-around">
+  <div>
+    <form #formData='ngForm' (ngSubmit)="onSubmit(formData)" fxLayout="column" fxLayoutAlign="center center">
+      <h2>Create Account</h2>
+      <p *ngIf="error"> {{ error }}</p>
+      <div fxLayout="column" fxLayoutAlign="start">
+        <md-input-container>
+          <input md-input id="email" name="email" focused required type="email" placeholder="Email Address"
+                 [(ngModel)]="email">
+        </md-input-container>
+        <md-input-container>
+          <input md-input
+                 id="password"
+                 name="password"
+                 required
+                 type="password"
+                 placeholder="Password"
+                 (ngModel)="password"
+                 #passwordInput="ngModel"
+                 validateEqual="passwordRetype"
+                 reverse="true">
+        </md-input-container>
+        <small [hidden]="passwordInput.valid || (passwordInput.pristine && !formData.submitted)">
+            Password is required
+          </small>
+        <md-input-container>
+          <input md-input
+                 id="passwordRetype"
+                 name="passwordRetype"
+                 required
+                 type="password"
+                 placeholder="Re-Type Password"
+                 (ngModel)="passwordRetype"
+                 #passwordRetypeInput="ngModel"
+                  validateEqual="password"
+                 reverse="true">
+        </md-input-container>
+        <small [hidden]="passwordRetypeInput.valid || (passwordRetypeInput.pristine && !formData.submitted)">
+            Passwords must match
+          </small>
       </div>
+      <button md-raised-button type="submit" [disabled]="!formData.valid" color="accent">Submit</button>
+
+      <br>
+
+      <a md-raised-button routerLink="/login">Already have an account?</a>
+
     </form>
   </div>
+
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <auth-google></auth-google>
+  </div>
+
+</div>
+
+<div *ngIf="af.auth | async" class="row">
+  <h3>You have successfully Logged In: {{ af.auth.uid }} </h3>
 </div>

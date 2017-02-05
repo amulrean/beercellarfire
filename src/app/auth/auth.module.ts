@@ -4,17 +4,25 @@ import { CommonModule } from '@angular/common';
 
 import { authRouting } from './auth.routing';
 import { LoginComponent, SignupComponent, ResetpassComponent } from './auth.component';
+import {AuthGoogleComponent} from "./auth.google.component";
+import {MaterialModule} from "@angular/material";
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {EqualValidator} from "../utils/equal-validator.directive";
 
 @NgModule({
   imports:      [
     authRouting,
     FormsModule,
-    CommonModule
+    CommonModule,
+    MaterialModule.forRoot(),
+    FlexLayoutModule.forRoot(),
    ],
   declarations: [
     SignupComponent,
     LoginComponent,
-    ResetpassComponent
+    ResetpassComponent,
+    AuthGoogleComponent,
+    EqualValidator
   ]
 })
 export class AuthModule { }

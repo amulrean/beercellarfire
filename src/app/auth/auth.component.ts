@@ -37,29 +37,6 @@ export class SignupComponent {
       this.error = 'Your form is invalid';
     }
   }
-
-  loginGoogle() {
-    this.af.auth.login({
-      provider: AuthProviders.Google,
-      method: AuthMethods.Popup,
-    }).then(
-      (success) => {
-
-      // Create User Object to Users Table
-      let userObject = {
-        email: success.auth.email,
-        created: new Date().toDateString(),
-        lastLogin: new Date().toDateString()
-      };
-
-      this.af.database.object('/users/' + success.uid).update(userObject);
-      this.router.navigate(['/cellar']);
-    }).catch(
-      (err) => {
-      console.log(err);
-      this.error = err.message;
-    })
-  }
 }
 
 @Component({
@@ -94,28 +71,6 @@ export class LoginComponent {
       this.error = 'Your form is invalid';
     }
   }
-
-  loginGoogle() {
-    this.af.auth.login({
-      provider: AuthProviders.Google,
-      method: AuthMethods.Redirect,
-    }).then(
-      (success) => {
-
-      // Create User Object to Users Table
-      let userObject = {
-        email: success.auth.email,
-        lastLogin: new Date().toDateString()
-      };
-
-      this.af.database.object('/users/' + success.uid).update(userObject);
-      this.router.navigate(['/cellar']);
-    }).catch(
-      (err) => {
-      console.log(err);
-      this.error = err.message;
-    })
-  }
 }
 
 @Component({
@@ -126,7 +81,7 @@ export class ResetpassComponent {
   public auth: any;
   public message: any;
   constructor(private af: AngularFire, @Inject(FirebaseApp) firebaseApp: any) {
-    this.auth = firebaseApp.auth()
+    this.auth = firebaseApp.auth();
     console.log(this.auth);
   }
 
