@@ -1,20 +1,14 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AngularFire} from 'angularfire2';
 import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
   template: `
-    <md-sidenav-layout [class.m2app-dark]="isDarkTheme">
+    <md-sidenav-layout>
 
-      <!--<md-sidenav #sidenav mode="side" class="app-sidenav">-->
-        <!--Sidenav-->
-      <!--</md-sidenav>-->
     
       <md-toolbar color="primary">
-        <!--<button class="app-icon-button" (click)="sidenav.toggle()">-->
-          <!--<i class="material-icons app-toolbar-menu">menu</i>-->
-        <!--</button>-->
         Beer Cellar
         
         <button md-button routerLink="/">Home</button>
@@ -44,12 +38,17 @@ import {Router} from "@angular/router";
 `,
   styleUrls: []
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
-  isDarkTheme: boolean = false;
+  user;
 
   constructor(public af: AngularFire, private router: Router) {
 
+  }
+
+  ngOnInit() {
+    // this.af.auth.subscribe(
+    //   user => this.user);
   }
 
   logout() {

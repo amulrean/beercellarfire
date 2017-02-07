@@ -8,7 +8,7 @@ import {Output} from "@angular/core/src/metadata/directives";
 
 
 @Component({
-  selector: 'app-beer-new',
+  selector: 'beer-db-search-new',
   template: `
     <md-card class="md-card new-beer-card">
       <div class="new-beer-search">
@@ -65,7 +65,7 @@ import {Output} from "@angular/core/src/metadata/directives";
   providers: [BreweryService]
 })
 
-export class BeerNewComponent implements OnInit {
+export class BeerDBSearchComponent implements OnInit {
 
   @Output() onAddItem = new EventEmitter<Beer>();
 

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFire, FirebaseListObservable} from 'angularfire2';
 
-import {CellarRecord} from './beer';
+import {CellarRecord, DrankRecord} from './beer';
 
 
 @Component({
@@ -14,6 +14,11 @@ import {CellarRecord} from './beer';
       *ngFor="let record of cellarRecords | async"
       [record]="record"
       (onDrinkRecord)="onDrinkRecord($event)"></beer-list-record>
+      
+    <h2>Drank Record:</h2>
+    <beer-list-drank-record 
+      *ngFor="let record of drankRecords | async"
+      [record]="record"></beer-list-drank-record>
   `,
   styles: [`
   `],
@@ -22,12 +27,23 @@ import {CellarRecord} from './beer';
 export class BeerListComponent implements OnInit {
 
   cellarRecords: FirebaseListObservable<any>;
+  drankRecords: FirebaseListObservable<any>;
+  userUid: string;
 
   constructor(public af: AngularFire) {
   }
 
   ngOnInit() {
-    this.cellarRecords = this.af.database.list('/cellarRecords', {
+    this.userUid = this.af.auth.getAuth().auth.uid;
+
+
+    this.cellarRecords = this.af.database.list('/cellarRecordsUid/' + this.userUid, {
+      query: {
+        orderByChild: 'count',
+      }
+    });
+
+    this.drankRecords = this.af.database.list('/drankRecords', {
       query: {
         orderByChild: 'ownerUid',
         equalTo: this.af.auth.getAuth().auth.uid
@@ -40,14 +56,18 @@ export class BeerListComponent implements OnInit {
     this.cellarRecords.push(newRecord);
   }
 
-  onDrinkRecord(drankRecord: CellarRecord) {
+  onDrinkRecord(drankCellarRecord: CellarRecord) {
 
-    drankRecord.count  = drankRecord.count -1;
-    if (drankRecord.count <= 0) {
-      this.cellarRecords.remove(drankRecord.$key);
+    drankCellarRecord.count  = drankCellarRecord.count -1;
+    if (drankCellarRecord.count <= 0) {
+      this.cellarRecords.remove(drankCellarRecord.$key);
     } else {
-      this.cellarRecords.update(drankRecord.$key, {count: drankRecord.count});
+      this.cellarRecords.update(drankCellarRecord.$key, {count: drankCellarRecord.count});
     }
+
+    let drankRecord = new DrankRecord(drankCellarRecord);
+    this.drankRecords.push(drankRecord);
+
   }
 
   deleteItem(key: string) {

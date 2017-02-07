@@ -18,6 +18,8 @@ import { AuthModule } from './auth/auth.module';
 import {HomeComponent} from "./home.compoent";
 import {AuthGuard} from "./auth/auth-gaurd.service";
 import {BeerListRecordComponent} from "./beer/beer-list-record.component";
+import {BeerListDrankRecordComponent} from "./beer/beer-list-drank-record.component";
+import {BeerDBSearchComponent} from "./beer/beer-db-search.component";
 
 // Must export the config
 export const firebaseConfig = secrets.firebaseConfig;
@@ -33,7 +35,9 @@ const myFirebaseAuthConfig = {
     HomeComponent,
     BeerListComponent,
     BeerListRecordComponent,
+    BeerListDrankRecordComponent,
     BeerNewComponent,
+    BeerDBSearchComponent
   ],
   imports: [
     BrowserModule,
